@@ -90,6 +90,15 @@ interface EbicsClientInterface
     public function HPB(DateTimeInterface $dateTime = null): InitializationOrderResult;
 
     /**
+     * Suspend activated Keyring.
+     *
+     * @param DateTimeInterface|null $dateTime
+     *
+     * @return UploadOrderResult
+     */
+    public function SPR(DateTimeInterface $dateTime = null): UploadOrderResult;
+
+    /**
      * Download request files of any BTF structure.
      *
      * @param BTDContext $btfContext

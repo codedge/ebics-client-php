@@ -250,6 +250,31 @@ final class EbicsClient implements EbicsClientInterface
      * @inheritDoc
      * @throws Exceptions\EbicsException
      */
+    public function SPR(DateTimeInterface $dateTime = null): UploadOrderResult
+    {
+        if (null === $dateTime) {
+            $dateTime = new DateTime();
+        }
+
+        $transaction = $this->uploadESTransaction(function (UploadTransaction $transaction) use (
+            $dateTime
+        ) {
+            $transaction->setOrderData(' ');
+            $transaction->setDigest($this->cryptService->hash($transaction->getOrderData()));
+
+            return $this->requestFactory->createSPR(
+                $dateTime,
+                $transaction
+            );
+        });
+
+        return $this->createUploadESResult($transaction, $transaction->getDigest());
+    }
+
+    /**
+     * @inheritDoc
+     * @throws Exceptions\EbicsException
+     */
     public function BTD(
         BTDContext $btfContext,
         DateTimeInterface $dateTime = null,
@@ -1299,12 +1324,14 @@ final class EbicsClient implements EbicsClientInterface
         $segment->setSegmentNumber(1);
         $segment->setIsLastSegment(true);
         $segment->setNumSegments($transaction->getNumSegments());
-        $segment->setOrderData('');
+        $segment->setOrderData(' ');
         $segment->setTransactionId($transaction->getInitialization()->getTransactionId());
-        $transaction->addSegment($segment);
-        $transaction->setKey($transaction->getInitialization()->getTransactionId());
 
-        $this->transferTransfer($transaction);
+        if ($segment->getTransactionId()) {
+            $transaction->addSegment($segment);
+            $transaction->setKey($segment->getTransactionId());
+            $this->transferTransfer($transaction);
+        }
 
         return $transaction;
     }

@@ -211,6 +211,35 @@ class EbicsClientV25Test extends AbstractEbicsTestCase
     /**
      * @dataProvider serversDataProvider
      *
+     * @group SPR
+     * @group SPR-V25
+     *
+     * @param int $credentialsId
+     * @param array $codes
+     * @param X509GeneratorInterface|null $x509Generator
+     *
+     * @covers
+     */
+    public function testSPR(int $credentialsId, array $codes, X509GeneratorInterface $x509Generator = null)
+    {
+        $this->markTestSkipped('Avoid keyring suspension.');
+
+        $client = $this->setupClientV25($credentialsId, $x509Generator, $codes['SPR']['fake']);
+
+        $this->assertExceptionCode($codes['SPR']['code']);
+        $spr = $client->SPR();
+
+        $responseHandler = $client->getResponseHandler();
+
+        $code = $responseHandler->retrieveH00XReturnCode($spr->getTransaction()->getInitialization()->getResponse());
+        $reportText = $responseHandler->retrieveH00XReportText($spr->getTransaction()->getInitialization()->getResponse());
+
+        $this->assertResponseOk($code, $reportText);
+    }
+
+    /**
+     * @dataProvider serversDataProvider
+     *
      * @group HKD
      *
      * @param int $credentialsId
@@ -1074,6 +1103,7 @@ class EbicsClientV25Test extends AbstractEbicsTestCase
                     'HIA' => ['code' => null, 'fake' => false],
                     'H3K' => ['code' => null, 'fake' => false],
                     'HPB' => ['code' => null, 'fake' => false],
+                    'SPR' => ['code' => null, 'fake' => false],
                     'HPD' => ['code' => null, 'fake' => false],
                     'HKD' => ['code' => null, 'fake' => false],
                     'HTD' => ['code' => null, 'fake' => false],
@@ -1120,6 +1150,7 @@ class EbicsClientV25Test extends AbstractEbicsTestCase
                     'HIA' => ['code' => null, 'fake' => false],
                     'H3K' => ['code' => null, 'fake' => false],
                     'HPB' => ['code' => null, 'fake' => false],
+                    'SPR' => ['code' => null, 'fake' => false],
                     'HPD' => ['code' => null, 'fake' => false],
                     'HKD' => ['code' => null, 'fake' => false],
                     'HTD' => ['code' => null, 'fake' => false],
@@ -1167,6 +1198,7 @@ class EbicsClientV25Test extends AbstractEbicsTestCase
                     'HIA' => ['code' => null, 'fake' => false],
                     'H3K' => ['code' => null, 'fake' => false],
                     'HPB' => ['code' => null, 'fake' => false],
+                    'SPR' => ['code' => null, 'fake' => false],
                     'HPD' => ['code' => null, 'fake' => false],
                     'HKD' => ['code' => null, 'fake' => false],
                     'HTD' => ['code' => null, 'fake' => false],
@@ -1213,6 +1245,7 @@ class EbicsClientV25Test extends AbstractEbicsTestCase
                     'HIA' => ['code' => null, 'fake' => false],
                     'H3K' => ['code' => null, 'fake' => false],
                     'HPB' => ['code' => null, 'fake' => false],
+                    'SPR' => ['code' => null, 'fake' => false],
                     'HPD' => ['code' => null, 'fake' => false],
                     'HKD' => ['code' => null, 'fake' => false],
                     'HTD' => ['code' => null, 'fake' => false],
@@ -1259,6 +1292,7 @@ class EbicsClientV25Test extends AbstractEbicsTestCase
                     'HIA' => ['code' => null, 'fake' => false],
                     'H3K' => ['code' => null, 'fake' => false],
                     'HPB' => ['code' => null, 'fake' => false],
+                    'SPR' => ['code' => null, 'fake' => false],
                     'HPD' => ['code' => null, 'fake' => false],
                     'HKD' => ['code' => null, 'fake' => false],
                     'HTD' => ['code' => null, 'fake' => false],

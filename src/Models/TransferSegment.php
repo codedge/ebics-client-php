@@ -10,7 +10,7 @@ namespace AndrewSvirin\Ebics\Models;
  */
 final class TransferSegment extends Segment
 {
-    private string $transactionId;
+    private ?string $transactionId;
     private ?int $segmentNumber;
     private ?int $numSegments;
     private string $orderData;

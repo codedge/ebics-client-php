@@ -72,6 +72,7 @@ final class RequestFactoryV25 extends RequestFactoryV2
                     OrderDetailsBuilder::ORDER_ATTRIBUTE_OZHNN : OrderDetailsBuilder::ORDER_ATTRIBUTE_DZHNN;
                 break;
             case 'HVE':
+            case 'SPR':
                 $orderAttribute = OrderDetailsBuilder::ORDER_ATTRIBUTE_UZHNN;
                 break;
             default:

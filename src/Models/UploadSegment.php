@@ -10,7 +10,7 @@ namespace AndrewSvirin\Ebics\Models;
  */
 final class UploadSegment extends Segment
 {
-    private string $transactionId;
+    private ?string $transactionId;
     private ?string $transactionPhase;
     private string $orderId;
 

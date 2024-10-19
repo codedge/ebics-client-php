@@ -1,3 +1,7 @@
+## 2.3
+
+* Add `SPR` order type
+
 ## 2.2
 
 * Change signature for KeyringManagerInterface. Attributes `IsCertified`, `Version` moved from Bank to Keyring.
